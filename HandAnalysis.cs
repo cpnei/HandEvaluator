@@ -663,8 +663,8 @@ namespace HoldemHand
             if (boardcount == 0)
             {
                 int index = (int)Hand.PocketHand169Type(ourcards);
-                player = Hand.PreCalcPlayerOdds[index];
-                opponent = Hand.PreCalcOppOdds[index];
+                Array.Copy(Hand.PreCalcPlayerOdds[index], player, player.Length);
+                Array.Copy(Hand.PreCalcOppOdds[index], opponent, opponent.Length);
                 return;
             }
 
