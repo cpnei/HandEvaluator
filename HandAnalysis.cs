@@ -53,7 +53,7 @@ namespace HoldemHand
                 count = 0;
                 pocketmasks[i] = Hand.ParseHand(pockets[i], "", ref count);
                 if (count != 2)
-                    throw new ArgumentException("There must be two pocket cards."); // Must have 2 cards in each pocket card set.
+                    throw new ArgumentException(string.Format("There must be two pocket cards. count={0}. hand=\"{1}\"", count, pockets[i])); // Must have 2 cards in each pocket card set.
                 deadcards_mask |= pocketmasks[i];
                 wins[i] = ties[i] = losses[i] = 0;
             }
