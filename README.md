@@ -18,6 +18,11 @@ public static void HandOdds(string[] pockets, string board, string dead, long[] 
 ```
 Given complete table information(pocket hands of each player, board cords.), calculate winning/tying/losing probability for each player.
 
+## Build enviroment
+The project was tested with VS2015 and .NET framework 4.0
+
+Python example was tested with Python 3.6
+
 ## How to use in Python
 
 * Install Python for .NET
