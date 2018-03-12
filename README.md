@@ -1,7 +1,7 @@
 # HandEvaluator
 A partial porting of Keith Rule's "Fast, Texas Holdem Hand Evaluation and Analysis" on https://www.codeproject.com/Articles/12279/Fast-Texas-Holdem-Hand-Evaluation-and-Analysis.
 
-To understand the detail of underlining calculation please refer to http://poker.cs.ualberta.ca/publications/davidson.msc.pdf section 3.3
+To understand the algorithm behind the source code please refer to http://poker.cs.ualberta.ca/publications/davidson.msc.pdf section 3.3
 
 ## Introduction of interested functions
 ```C#
@@ -31,12 +31,13 @@ import clr
 clr.AddReference("HandEvaluator")
 from HoldemHand import Hand
 from System import Array, Double, String, Int64
-import time
 
 playerWins = Array[Double]([1.0]*9)
 opponentWins = Array[Double]([0.0]*9)
 Pocket = "ac as"
 Board = "4d 5d 6c"
 Hand.HandPlayerOpponentOdds(Pocket, Board, playerWins, opponentWins)
+print("Win rate: ", sum(playerWins))
+print("Lose rate: ", sum(opponentWins))
 ```
 
