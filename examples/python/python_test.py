@@ -40,6 +40,42 @@ def test_hpoo1():
         print("Straight Flush: %f%%"% ( opponentWins[int(Hand.HandTypes.StraightFlush)]*100.0))
         print("===============================================================================\n")
 
+def test_hpoo2():
+    playerWins = Array[Double]([1.0]*9)
+    opponentWins = Array[Double]([0.0]*9)
+    Pocket = "kc ks"
+    Board = "8h 6c 4h"
+
+    print("===============================================================================")
+    for Pocket in ["kc ks", "7h 9h"]:
+        Hand.HandPlayerOpponentOdds(Pocket, Board, playerWins, opponentWins)
+        print("Pocket:", Pocket)
+        print("Board:", Board)
+        #print(list(playerWins))
+        print("playerWins:", sum(playerWins))
+        print("High Card: %f%%"%      ( playerWins[int(Hand.HandTypes.HighCard)]*100.0))
+        print("Pair: %f%%"%           ( playerWins[int(Hand.HandTypes.Pair)]*100.0))
+        print("Two Pair: %f%%"%       ( playerWins[int(Hand.HandTypes.TwoPair)]*100.0))
+        print("Three of Kind: %f%%"%  ( playerWins[int(Hand.HandTypes.Trips)]*100.0))
+        print("Straight: %f%%"%       ( playerWins[int(Hand.HandTypes.Straight)]*100.0))
+        print("Flush: %f%%"%          ( playerWins[int(Hand.HandTypes.Flush)]*100.0))
+        print("Fullhouse: %f%%"%      ( playerWins[int(Hand.HandTypes.FullHouse)]*100.0))
+        print("Four of a Kind: %f%%"% ( playerWins[int(Hand.HandTypes.FourOfAKind)]*100.0))
+        print("Straight Flush: %f%%"% ( playerWins[int(Hand.HandTypes.StraightFlush)]*100.0))
+        print("\n")
+        #print(list(opponentWins))
+        print("opponentWins:", sum(opponentWins))
+        print("High Card: %f%%"%      ( opponentWins[int(Hand.HandTypes.HighCard)]*100.0))
+        print("Pair: %f%%"%           ( opponentWins[int(Hand.HandTypes.Pair)]*100.0))
+        print("Two Pair: %f%%"%       ( opponentWins[int(Hand.HandTypes.TwoPair)]*100.0))
+        print("Three of Kind: %f%%"%  ( opponentWins[int(Hand.HandTypes.Trips)]*100.0))
+        print("Straight: %f%%"%       ( opponentWins[int(Hand.HandTypes.Straight)]*100.0))
+        print("Flush: %f%%"%          ( opponentWins[int(Hand.HandTypes.Flush)]*100.0))
+        print("Fullhouse: %f%%"%      ( opponentWins[int(Hand.HandTypes.FullHouse)]*100.0))
+        print("Four of a Kind: %f%%"% ( opponentWins[int(Hand.HandTypes.FourOfAKind)]*100.0))
+        print("Straight Flush: %f%%"% ( opponentWins[int(Hand.HandTypes.StraightFlush)]*100.0))
+        print("===============================================================================\n")
+
 def benchmark_hpoo():
     playerWins = Array[Double]([1.0]*9)
     opponentWins = Array[Double]([0.0]*9)
@@ -105,8 +141,20 @@ def test_HandOdds():
     print("P2_losses:")
     print(losses[1]/totalHands)
     
+def test_HandPotential():
+    pp = Double(0)
+    np = Double(0)
+    Pocket = "ac as"
+    Board = "4d 5d 6c"
+    r = Hand.HandPotential(Pocket, Board, pp, np)
+    print("Positive potential", pp)
+    print("Negative potential", np)
+    print(r)
+    
 if __name__ == "__main__":
     test_hpoo1()
+    test_hpoo2()
     test_HandOdds()
     benchmark_hpoo()
+    test_HandPotential()
     

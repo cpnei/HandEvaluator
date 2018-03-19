@@ -818,6 +818,18 @@ namespace HoldemHand
             else
                 npot = 0;
         }
+        /// <summary>
+        /// Returns the positive and negative potential of the current hand. This funciton
+        /// is described in Aaron Davidson's masters thesis (davidson.msc.pdf).
+        /// </summary>
+        /// <param name="pocket">Hold Cards in ascii</param>
+        /// <param name="board">Community cards</param>
+        /// <param name="ppot">Positive Potential</param>
+        /// <param name="npot">Negative Potential</param>
+        public static void HandPotential(string pocket, string board, out double ppot, out double npot)
+        {
+            HandPotential(Hand.ParseHand(pocket), Hand.ParseHand(board), out ppot, out npot);
+        }
         #endregion
     }
 }
