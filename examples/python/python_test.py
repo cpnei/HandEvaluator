@@ -3,6 +3,26 @@ clr.AddReference("HandEvaluator")
 from HoldemHand import Hand
 from System import Array, Double, String, Int64
 import time
+import numpy as np
+import itertools
+
+def CalcWinrate_hpoo(Pocket, Board):
+    playerWins = Array[Double]([1.0]*9)
+    opponentWins = Array[Double]([0.0]*9)
+    Hand.HandPlayerOpponentOdds(Pocket, Board, playerWins, opponentWins)
+    return sum(playerWins)
+    
+def CalcWinrate_mc(Pocket, Board):
+    wr = Double(0)
+    r = Hand.MCWinRate(Pocket, Board, "", 10, 1000000, wr)
+    return r
+    
+def RandomTable():
+    values = "23456789tjqka"
+    types = "shdc"
+    allcards = list(map("".join, itertools.product(values, types)))
+    pickedcards = np.random.permutation(allcards)[:5]
+    return " ".join(pickedcards[:3]), " ".join(pickedcards[3:5])
 
 def test_hpoo1():
     playerWins = Array[Double]([1.0]*9)
@@ -151,10 +171,29 @@ def test_HandPotential():
     print("Negative potential", np)
     print(r)
     
+def test_MCWinRate():
+    wr = Double(0)
+    
+    start_time = time.time()
+    Pocket = "ac as"
+    Board = "4d 5d 6c"
+    for i in [10, 100, 1000, 10000, 100000, 1000000]:
+        r = Hand.MCWinRate(Pocket, Board, "", 10, i, wr)
+        etime = (time.time()-start_time)
+        print(i, r)
+        print("elapsed time=", etime)
+    
+def compare_WinRate():
+    for i in range(100):
+        Board, Pocket = RandomTable()
+        print(Board, Pocket, CalcWinrate_hpoo(Pocket, Board), CalcWinrate_mc(Pocket, Board))
+    
 if __name__ == "__main__":
-    test_hpoo1()
-    test_hpoo2()
-    test_HandOdds()
-    benchmark_hpoo()
-    test_HandPotential()
+    #test_hpoo1()
+    #test_hpoo2()
+    #test_HandOdds()
+    #benchmark_hpoo()
+    #test_HandPotential()
+    test_MCWinRate()
+    #compare_WinRate()
     

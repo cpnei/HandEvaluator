@@ -1615,7 +1615,7 @@ namespace HoldemHand
         /// <param name="ncards">The number of cards to return in this hand.</param>
         /// <param name="rand">An instance of the Random class.</param>
         /// <returns>A randomly chosen hand containing the number of cards requested.</returns>
-        static private ulong GetRandomHand(ulong dead, int ncards, Random rand)
+        public static ulong GetRandomHand(ulong dead, int ncards, Random rand)
         {
             // Return a random hand.
             ulong mask = 0UL, card;

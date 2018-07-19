@@ -133,6 +133,70 @@ namespace HoldemHand
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pockets"></param>
+        /// <param name="board"></param>
+        /// <param name="dead"></param>
+        /// <param name="nplayers"></param>
+        /// <param name="trials"></param>
+        /// <param name="winrate"></param>
+        public static void MCWinRate(string pockets, string board, string dead, int nplayers, int trials, out double winrate)
+        {
+            int wins = 0;
+            int ties = 0;
+            int losses = 0;
+            ulong pocketmasks = 0UL;
+            int count = 0;
+            ulong boardmask = 0UL, deadcards_mask = 0UL, deadcards = Hand.ParseHand(dead, ref count);
+
+            // Read pocket cards
+            count = 0;
+            pocketmasks = Hand.ParseHand(pockets, "", ref count);
+            if (count != 2)
+                throw new ArgumentException(string.Format("There must be two pocket cards. count={0}. hand=\"{1}\"", count, pockets)); // Must have 2 cards in each pocket card set.
+
+            // Read board cards
+            count = 0;
+            boardmask = Hand.ParseHand("", board, ref count);
+            System.Random rand = new Random();
+
+            for (int i = 0; i < trials; i++)
+            {
+                deadcards_mask = (deadcards|pocketmasks|boardmask);
+                ulong chance = GetRandomHand(deadcards_mask, 5 - Hand.BitCount(boardmask), rand);
+                deadcards_mask |= chance;
+                ulong mypocket = Evaluate(pocketmasks | chance | boardmask, 7);
+                ulong bestpocket = 0;
+                for (int j = 0; j < nplayers - 1; j++)
+                {
+                    ulong opponent = GetRandomHand(deadcards_mask, 2, rand);
+                    deadcards_mask |= opponent;
+                    ulong opponentpocket = Evaluate(opponent | chance | boardmask, 7);
+                    if (opponentpocket > bestpocket)
+                    {
+                        bestpocket = opponentpocket;
+                    }
+                }
+                //Console.WriteLine("mypocket:{0},bestpocket:{1}", mypocket, bestpocket);
+                if (mypocket > bestpocket)
+                {
+                    wins++;
+                }
+                else if (mypocket == bestpocket)
+                {
+                    ties++;
+                }
+                else
+                {
+                    losses++;
+                }
+            }
+            //Console.WriteLine("wins:{0},ties:{1},losses:{2}", wins, ties, losses);
+            winrate = ((double)wins + (double)ties * 0.5) / trials;
+        }
+
+        /// <summary>
         /// Returns the number of outs possible with the next card.
         /// </summary>
         /// <param name="player">Players pocket cards</param>
